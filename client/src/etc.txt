@@ -1,0 +1,220 @@
+
+  {/*<FormControl sx = {{width: '20%'}}>
+  <InputLabel variant="standard" htmlFor="uncontrolled-native">
+  </InputLabel>
+  <NativeSelect
+    defaultValue={"dev"}
+    id="category"
+    sx = {{width: '100%'}}
+    onChange={handleChange}
+    inputProps={{
+      name: 'Category',
+      id: 'uncontrolled-native',
+    }}
+  >
+    <option value={'dsa'}>DSA TRAINING</option>
+    <option value={'dev'}>DEV JOURNAL</option>
+  </NativeSelect>
+  </FormControl> this code needs further research : sending select value thru axios*/}
+ from PostForm.tsx
+
+
+
+ // send post request and get response
+   axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    return config;
+    }, function (error) {
+    // Do something with request error
+      return Promise.reject(error);
+    });
+  
+  // Add a response interceptor
+    axios.interceptors.response.use(function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+      return response;
+    }, function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+      return Promise.reject(error);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { TextField, Paper, Box, Button } from "@mui/material";
+import { AxiosRequestConfig } from "axios";
+import React, { ChangeEvent } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { TextChange } from "typescript";
+
+
+
+export default function PostForm() {
+  
+  const { handleSubmit } = useForm();
+  const [formValues, setformValues] = React.useState({
+    title: '',
+    timestamp: '',
+    authorId:'1',
+    text: '',    
+    category: '',
+  });
+
+  React.useEffect(() => {
+    console.log(formValues);
+},[formValues]);
+  
+const handleChange = (event: { target: HTMLInputElement; }) => {
+  setformValues({
+    ...formValues,
+    [event.target.name]: event.target.value
+  });
+}; 
+
+    
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    
+
+    const postconfig: AxiosRequestConfig = {
+      method: "post",
+      url: "/api/posts",
+      data: formValues,
+      headers: { "Content-Type": "multipart/form-data" },
+      transformRequest: (formData) => {
+        
+        return formData;
+    },
+    };
+  
+
+    await axios(postconfig);        
+};
+
+
+
+     
+
+    return (
+      <>
+      <Paper sx={{
+      
+      p: 2,
+      fontSize: '0.875rem',
+      fontWeight: '700',
+      position: 'absolute',
+      top: '20%',
+      left: '30%',
+      zIndex: 'tooltip',
+      width: '62.3%'
+    }}>
+                   
+<form onSubmit={handleSubmit(onSubmit)}>
+
+  <Box>
+    <TextField
+      id="outlined-uncontrolled"
+      label="Post Title"
+      sx = {{width: '85%'}}
+      type="text"
+      name="title"
+      onChange={() => handleChange(formValues.title)}
+      
+      
+    />
+    <Button variant="contained" size="large"  sx={{top: "10%", left: "2%"}}>Delete</Button>
+    
+  </Box>
+  <p/><p/>
+  <Box>
+    <TextField
+        id="outlined-multiline-static"
+        label="Post"
+        multiline
+        rows={21}
+        sx = {{width: '100%',
+        }}
+        type="text"
+        name="text"
+        onChange={() => handleChange}
+        value={formValue.text}
+        
+        
+
+        />
+  </Box>
+  <p/>
+  <Box sx = {{width: '90%'}}>
+    <TextField
+      id="outlined-uncontrolled"
+      label="Category"
+      sx = {{width: '20%'}}
+      type="text"
+      name="category"
+      onChange={() => handleChange}
+      
+      
+      
+    />
+    <Button type="submit" variant="contained" size="large"  sx={{left: "80%"}}>Submit</Button>
+  </Box>
+</form>          
+  </Paper>
+    </>
+    )
+  }
+
+
+ <Button
+        color="inherit"
+        size='small'
+        disableRipple 
+        disableElevation 
+        style={{backgroundColor: 'transparent'}}
+        >
+        <AccountCircleIcon sx={{ fontSize: 35 }} />
+        </Button>
+
+
+
+
+
+
+
+
+
+
+
+
+        <Controller
+        control={control}
+        defaultValue=''
+        render={({ field: { onChange, value, ref }}) => (
+          <Editor 
+            editorState={value}
+            onChange={onChange}
+            ref={ref} /> 
+          
+        )}
+        {...register("text")}
+        
+      />
