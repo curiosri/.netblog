@@ -1,8 +1,9 @@
-import { TextField, Box, Button } from "@mui/material";
+import { TextField, Box, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
 import TextEditor from "./TextEditor"
 import "draft-js/dist/Draft.css";
+import React from 'react';
 
 
 
@@ -31,7 +32,7 @@ export default function UpdateForm() {
       .then((response) => {
         console.log(response);
         window.location.href = 'http://localhost:7231/' // redirects to the homepage. Does work with http, but NOT with https (why?) 
-        // How to redirect to individual posts?
+        
       })
       .catch((error) => {
         if (error.response) {
@@ -74,14 +75,21 @@ export default function UpdateForm() {
   </Box>
   <p/>
   <Box sx = {{width: '90%'}}>
-    <TextField
-      id="outlined-uncontrolled"
-      label="Category"
-      sx = {{width: '20%'}}
-      defaultValue=""
-      type="text"
-      {...register("category")}
-    />
+    <FormControl fullWidth sx={{width:'20%' }}>
+  <InputLabel id="category-input">Category</InputLabel>
+  <Select
+    labelId="category-select"
+    id="demo-simple-select"
+    label="Category"
+    {...register("category")}
+  >
+    <MenuItem value={"news"}>KOREA NEWS</MenuItem>
+    <MenuItem value={"learnkorean"}>LEARNING KOREAN</MenuItem>
+    <MenuItem value={"studyabroad"}>STUDY ABROAD</MenuItem>
+    <MenuItem value={"expat"}>EXPAT LIFE</MenuItem>
+  </Select>
+</FormControl>
+
     <Button type="submit" variant="contained" size="large"  sx={{left: "80%"}}>Submit</Button>
   </Box>
 </form>          
