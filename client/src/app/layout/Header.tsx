@@ -28,7 +28,7 @@ import './styles.css'
       backgroundColor: alpha(theme.palette.common.black, 0.25),
     },
     marginLeft: 0,
-    width: '100%',
+    width: '150%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
@@ -122,11 +122,11 @@ export default function Header() {
         
         
        
-        <Button size='small' 
+        <Button size='large'
         sx={{height: '40px',
         position: 'relative',
         right: '2%'}} 
-        variant="outlined" color="inherit" 
+        color="inherit" 
         style={{backgroundColor: 'transparent'}} >
           <Link to='/login' style={{ color: 'inherit', textDecoration: 'inherit'}}>
           LOGIN

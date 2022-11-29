@@ -56,6 +56,7 @@ namespace API.Controllers
 
         //[Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
+        [Consumes("multipart/form-data")]
         public async Task<ActionResult<Post>> UpdatePost([FromForm] UpdatePostDto postDto)
         {
             var post = await _context.Posts.FindAsync(postDto.Id);

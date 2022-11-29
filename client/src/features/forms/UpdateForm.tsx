@@ -1,6 +1,7 @@
 import { TextField, Box, Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import TextEditor from "./TextEditor"
 import "draft-js/dist/Draft.css";
 import React from 'react';
@@ -8,27 +9,27 @@ import React from 'react';
 
 
 export default function UpdateForm() {
-  const { register, handleSubmit, control } = useForm({
-    
-  });
+  const { register, handleSubmit, control } = useForm();
+  const {id} = useParams<{id: string}>();
   
 
   const onSubmit = async (data: any) => {
     var datestr = (new Date()).toUTCString();
     const formData = new FormData();
+    formData.append("id", id)
     formData.append("title", data.title);
     formData.append("text", data.text);
     formData.append("category", data.category);
     formData.append("timestamp", datestr);
     formData.append("authorId", "1");
-    const response = await axios("https://localhost:7230/api/posts", {
+    const response = await axios(`https://localhost:7230/api/posts/${id}`, {
       method: "PUT",
       data: formData,
       headers: { "Content-Type": "multipart/form-data", "Accept": "multipart/form-data" },
       transformRequest: (formData) => {
       
-        return formData;}}
-      )
+        return formData;}
+      })
       .then((response) => {
         console.log(response);
         window.location.href = 'http://localhost:7231/' // redirects to the homepage. Does work with http, but NOT with https (why?) 
@@ -90,7 +91,7 @@ export default function UpdateForm() {
   </Select>
 </FormControl>
 
-    <Button type="submit" variant="contained" size="large"  sx={{left: "80%"}}>Submit</Button>
+    <Button type="submit" size="large"  sx={{left: "80%"}}>Submit</Button>
   </Box>
 </form>          
     </>

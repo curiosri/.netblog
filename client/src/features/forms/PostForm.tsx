@@ -8,9 +8,7 @@ import React from 'react';
 
 
 export default function PostForm() {
-  const { register, handleSubmit, control } = useForm({
-    
-  });
+  const { register, handleSubmit, control } = useForm();
 
   const onSubmit = async (data: any) => {
     var datestr = (new Date()).toUTCString();
@@ -26,8 +24,8 @@ export default function PostForm() {
       headers: { "Content-Type": "multipart/form-data", "Accept": "multipart/form-data" },
       transformRequest: (formData) => {
       
-        return formData;}}
-      )
+        return formData;}
+      })
       .then((response) => {
         console.log(response);
         window.location.href = 'http://localhost:7231/' // redirects to the homepage. Does work with http, but NOT with https (why?) 
