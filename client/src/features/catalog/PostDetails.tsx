@@ -1,4 +1,4 @@
-import { Box, Button, createTheme, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, ThemeProvider, Typography } from "@mui/material";
+import { Box, Button, createTheme, Divider, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, ThemeProvider, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -81,8 +81,9 @@ export default function PostDetails() {
                     </TableContainer>
                 </Grid>
                 <Grid item xs={15}>
+                
                 <Button size="large"  sx={{left: "0%"}}>EDIT</Button>
-                <Button size="large"  sx={{left: "3%"}}>DELETE</Button>
+                <Button size="large"  sx={{left: "0%"}}>DELETE</Button>
                     
                 </Grid>
             </Grid>

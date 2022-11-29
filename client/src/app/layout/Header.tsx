@@ -28,7 +28,7 @@ import './styles.css'
       backgroundColor: alpha(theme.palette.common.black, 0.25),
     },
     marginLeft: 0,
-    width: '150%',
+    width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),

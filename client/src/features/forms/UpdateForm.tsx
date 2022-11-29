@@ -4,13 +4,34 @@ import { useForm, Controller } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import TextEditor from "./TextEditor"
 import "draft-js/dist/Draft.css";
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { Post } from "../../app/models/post";
+import agent from "../../app/api/agent";
+import ReactHtmlParser from 'react-html-parser';
+import { ResetTv } from "@mui/icons-material";
 
 
 export default function UpdateForm() {
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control, reset} = useForm();
   const {id} = useParams<{id: string}>();
+  const [post, setPost] = useState<Post | null>(null);
+
+  useEffect(() => {
+    agent.Catalog.details(parseInt(id))
+    .then(response => setPost(response))
+    .catch(error => console.log(error));
+    
+}, [id])
+
+  const defaultValues = {
+    //title: (post?.title),
+    //text: (post?.text),
+    //category: (post?.category)
+    title: "Title",
+    text: "Text",
+    category: "expat"
+  };
+
   
 
   const onSubmit = async (data: any) => {
@@ -22,6 +43,7 @@ export default function UpdateForm() {
     formData.append("category", data.category);
     formData.append("timestamp", datestr);
     formData.append("authorId", "1");
+
     const response = await axios(`https://localhost:7230/api/posts/${id}`, {
       method: "PUT",
       data: formData,
@@ -57,7 +79,7 @@ export default function UpdateForm() {
       id="outlined-uncontrolled"
       label="Post Title"
       sx = {{width: '100%'}}
-      defaultValue=""
+      defaultValue={defaultValues.title}
       type="text"
       {...register("title")}
     />
@@ -70,7 +92,7 @@ export default function UpdateForm() {
             <TextEditor onChange={field.onChange} value={field.value} />
           )}
           control={control}
-          defaultValue=""
+          defaultValue={defaultValues.text}
           {...register("text")}
         />
   </Box>
@@ -80,6 +102,7 @@ export default function UpdateForm() {
   <InputLabel id="category-input">Category</InputLabel>
   <Select
     labelId="category-select"
+    defaultValue={defaultValues.category}
     id="demo-simple-select"
     label="Category"
     {...register("category")}
@@ -91,7 +114,7 @@ export default function UpdateForm() {
   </Select>
 </FormControl>
 
-    <Button type="submit" size="large"  sx={{left: "80%"}}>Submit</Button>
+    <Button variant="contained" type="submit" size="large"  sx={{left: "80%"}}>Submit</Button>
   </Box>
 </form>          
     </>
