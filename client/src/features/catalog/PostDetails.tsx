@@ -65,7 +65,9 @@ export default function PostDetails() {
                                     <TableCell><Typography>{post.title}
                                     </Typography></TableCell></ThemeProvider>
                                 </TableRow>
-                                <TableRow><ThemeProvider theme={texttheme}>
+                                <ThemeProvider theme={texttheme}>
+                                <TableRow><Typography align="right">{(post.timestamp).toLocaleString()}</Typography></TableRow>
+                                <TableRow>
                                     <TableCell><Typography>
                                     <React.Fragment> 
                                                         
@@ -73,9 +75,9 @@ export default function PostDetails() {
                                         {ReactHtmlParser(post.text)} 
                                     </div>
                                     </React.Fragment>
-                                    </Typography></TableCell></ThemeProvider>
+                                    </Typography></TableCell>
                                 </TableRow> 
-                        
+                                </ThemeProvider>
                             </TableBody>
                         </Table></div>
                     </TableContainer>

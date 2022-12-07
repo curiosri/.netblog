@@ -95,7 +95,7 @@ export default function Header() {
 
  <List sx={{display: 'flex'}}>
         {Links.map(({title, path}) => (
-          <Typography fontSize='medium'>
+          <Typography fontSize='large'>
           <ListItem 
             component={NavLink}
             to={path}

@@ -9,6 +9,7 @@ import { Post } from "../../app/models/post";
 import agent from "../../app/api/agent";
 import ReactHtmlParser from 'react-html-parser';
 import { ResetTv } from "@mui/icons-material";
+import { setConstantValue } from "typescript";
 
 
 export default function UpdateForm() {
@@ -20,19 +21,14 @@ export default function UpdateForm() {
     agent.Catalog.details(parseInt(id))
     .then(response => setPost(response))
     .catch(error => console.log(error));
-    
 }, [id])
 
-  const defaultValues = {
-    //title: (post?.title),
-    //text: (post?.text),
-    //category: (post?.category)
-    title: "Title",
-    text: "Text",
-    category: "expat"
+  const defaultSet = {
+    title: (post?.title),
+    text: (post?.text),
+    category: (post?.category),
+    timestamp: (post?.timestamp)
   };
-
-  
 
   const onSubmit = async (data: any) => {
     var datestr = (new Date()).toUTCString();
@@ -79,7 +75,7 @@ export default function UpdateForm() {
       id="outlined-uncontrolled"
       label="Post Title"
       sx = {{width: '100%'}}
-      defaultValue={defaultValues.title}
+      defaultValue={defaultSet.title}
       type="text"
       {...register("title")}
     />
@@ -92,7 +88,7 @@ export default function UpdateForm() {
             <TextEditor onChange={field.onChange} value={field.value} />
           )}
           control={control}
-          defaultValue={defaultValues.text}
+          defaultValue={defaultSet.text}
           {...register("text")}
         />
   </Box>
@@ -102,7 +98,7 @@ export default function UpdateForm() {
   <InputLabel id="category-input">Category</InputLabel>
   <Select
     labelId="category-select"
-    defaultValue={defaultValues.category}
+    defaultValue={defaultSet.category}
     id="demo-simple-select"
     label="Category"
     {...register("category")}
