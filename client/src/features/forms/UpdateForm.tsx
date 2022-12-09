@@ -8,8 +8,6 @@ import React, { useEffect, useState } from 'react';
 import { Post } from "../../app/models/post";
 import agent from "../../app/api/agent";
 import ReactHtmlParser from 'react-html-parser';
-import { ResetTv } from "@mui/icons-material";
-import { setConstantValue } from "typescript";
 
 
 export default function UpdateForm() {
@@ -20,14 +18,14 @@ export default function UpdateForm() {
   useEffect(() => {
     agent.Catalog.details(parseInt(id))
     .then(response => setPost(response))
-    .catch(error => console.log(error));
+    .catch(error => console.log(error))
+    
 }, [id])
 
   const defaultSet = {
-    title: (post?.title),
-    text: (post?.text),
-    category: (post?.category),
-    timestamp: (post?.timestamp)
+    title: (post? post.title : "title"),
+    text: (post? post.text : "write text here"),
+    category: (post? post.category : "expat"),
   };
 
   const onSubmit = async (data: any) => {
