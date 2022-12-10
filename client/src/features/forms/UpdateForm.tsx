@@ -20,7 +20,10 @@ export default function UpdateForm() {
     .then(response => setPost(response))
     .catch(error => console.log(error))
     
-}, [id])
+  }, [id])
+
+  if (!post) return <h3> </h3> 
+  // This handles the case where post is null.
 
   const defaultSet = {
     title: (post? post.title : "title"),

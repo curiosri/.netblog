@@ -1,7 +1,7 @@
 import { Box, Button, createTheme, Divider, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, ThemeProvider, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Post } from "../../app/models/post";
 import ReactHtmlParser from 'react-html-parser';
 import agent from "../../app/api/agent";
@@ -84,8 +84,15 @@ export default function PostDetails() {
                 </Grid>
                 <Grid item xs={15}>
                 
-                <Button size="large"  sx={{left: "0%"}}>EDIT</Button>
-                <Button size="large"  sx={{left: "0%"}}>DELETE</Button>
+                <Button size="large"  sx={{left: "0%"}}>
+                <Link to='/' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                    EDIT
+                </Link></Button>
+                
+                <Button size="large"  sx={{left: "0%"}}>
+                <Link to='/' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                    DELETE
+                </Link></Button>
                     
                 </Grid>
             </Grid>
