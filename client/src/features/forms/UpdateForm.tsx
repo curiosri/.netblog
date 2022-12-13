@@ -51,7 +51,9 @@ export default function UpdateForm() {
       })
       .then((response) => {
         console.log(response);
-        window.location.href = 'http://localhost:7231/' // redirects to the homepage. Does work with http, but NOT with https (why?) 
+        window.location.href = 'http://localhost:7231/' 
+        // redirects to the homepage. Does work with http, but NOT with https (why?) 
+        // `http://localhost:7231//posts/${post.id}` does not work
         
       })
       .catch((error) => {

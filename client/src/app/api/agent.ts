@@ -17,7 +17,8 @@ const requests = {
 
 const Catalog = {
     list: () => requests.get('posts'), 
-    details: (id: number) => requests.get(`posts/${id}`)
+    details: (id: number) => requests.get(`posts/${id}`),
+    delete: (id: number) => requests.delete(`posts/${id}`)
 
 }
 

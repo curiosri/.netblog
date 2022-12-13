@@ -4,14 +4,12 @@ import draftToHtml from "draftjs-to-html";
 import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "./customBlock.css";
 
 
     const TextEditor = ({ onChange, value } : any) => {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [updated, setUpdated] = useState(false);
     
-  
     
     useEffect(() => {
       if (!updated) {
@@ -96,14 +94,6 @@ import "./customBlock.css";
         },
       },});
     
-    function myBlockStyleFn(contentBlock: ContentBlock) {
-      const type = contentBlock.getType();
-      if (type === 'code-block') {
-        return 'customBlock';
-      }
-    }
-    
-    
     return (
       
       <React.Fragment>
@@ -115,8 +105,7 @@ import "./customBlock.css";
             editorState={editorState}
             onEditorStateChange={onEditorStateChange}
             toolbar={toolbar}
-            editorStyle={{height: "500px" }} 
-            //blockStyleFn={myBlockStyleFn}             
+            editorStyle={{height: "500px" }}             
           />
           </Typography>
           </ThemeProvider>

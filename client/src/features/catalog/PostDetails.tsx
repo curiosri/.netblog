@@ -10,8 +10,10 @@ import agent from "../../app/api/agent";
 export default function PostDetails() {
     const {id} = useParams<{id: string}>();
     const [post, setPost] = useState<Post | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [target, setTarget] = useState(0);
 
+    // get the individual post content
     useEffect(() => {
         agent.Catalog.details(parseInt(id))
         .then(response => setPost(response))
@@ -23,6 +25,17 @@ export default function PostDetails() {
 
     if (!post) return <h3> This post doesn't exist </h3>
 
+    // delete the individual post
+    function handleDeletePost(id: string) {
+        agent.Catalog.delete(parseInt(id))
+        .then((response) => {
+            console.log(response);
+            window.location.href = 'http://localhost:7231/' 
+          })
+        .catch(error =>console.log(error))
+        .finally(() => setLoading(false));
+    }
+        
     const titletheme = createTheme({
         typography: {
           allVariants: {
@@ -85,14 +98,14 @@ export default function PostDetails() {
                 <Grid item xs={15}>
                 
                 <Button size="large"  sx={{left: "0%"}}>
-                <Link to='/' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                <Link to={`/posts/${post.id}/update` } style={{ color: 'inherit', textDecoration: 'inherit'}}>
                     EDIT
                 </Link></Button>
                 
-                <Button size="large"  sx={{left: "0%"}}>
-                <Link to='/' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                <Button size="large"  sx={{left: "0%"}} 
+                onClick={() => handleDeletePost(id)} >
                     DELETE
-                </Link></Button>
+                </Button>
                     
                 </Grid>
             </Grid>
