@@ -10,8 +10,9 @@ interface Props {
 const titletheme = createTheme({
   typography: {
     allVariants: {
-      fontFamily: 'Russo One',
+      fontFamily: 'Poppins',
       textTransform: 'none',
+      fontWeight: 'bold'
   
     },
   },
@@ -21,8 +22,9 @@ const titletheme = createTheme({
 const texttheme = createTheme({
   typography: {
     allVariants: {
-      fontFamily: 'Basic',
+      fontFamily: 'Noto Sans KR',
       textTransform: 'none',
+      fontSize: 20
     },
   },});
 

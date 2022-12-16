@@ -64,8 +64,8 @@ export default function PostForm() {
           render={({ field }) => (
             <TextEditor onChange={field.onChange} value={field.value} />
           )}
+          defaultValue = ""
           control={control}
-          defaultValue=""
           {...register("text")}
         />
   </Box>

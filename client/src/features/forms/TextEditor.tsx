@@ -1,15 +1,14 @@
 import { createTheme, ThemeProvider, Typography } from "@mui/material";
-import { ContentBlock, ContentState, convertFromHTML, convertToRaw, EditorState } from "draft-js";
+import { ContentBlock, ContentState, convertFromHTML, convertToRaw, EditorState} from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-
     const TextEditor = ({ onChange, value } : any) => {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [updated, setUpdated] = useState(false);
-    
+
     
     useEffect(() => {
       if (!updated) {
@@ -23,11 +22,15 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
         setEditorState(newEditorState);
       }
     }, [value]);
+
+    
+    
   
     const onEditorStateChange = (editorState : any) => {
       setUpdated(true);
       setEditorState(editorState);
-      return onChange(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+      return onChange(draftToHtml(convertToRaw(editorState.getCurrentContent()))); 
+
     };
   
     const toolbar = {
@@ -36,25 +39,26 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
         inDropdown: false,
         options: ['bold', 'underline', 'italic']
       },
+      
       blockType: {
         inDropdown: false,
-        options: ["Normal", 'Blockquote', 'Code']
+        options: ["H1", "H2", "H3", "H5", "Normal", "Code"]
       },
+
       list: {
         inDropdown: false,
         options: ["unordered", "ordered"]
       },
       image: {
-        inDropdown: false,
         className: undefined,
         component: undefined,
         popupClassName: undefined,
         urlEnabled: true,
         uploadEnabled: true,
         alignmentEnabled: true,
-        uploadCallback: uploadImageCallBack,
+        uploadCallback: undefined,
         previewImage: false,
-        inputAccept: 'image/jpeg,image/jpg,image/png,image/svg',
+        inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
         alt: { present: false, mandatory: false },
         defaultSize: {
           height: 'auto',
@@ -63,33 +67,11 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
       },
     };    
     
-    function uploadImageCallBack(file: any) {
-      return new Promise(
-        (resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.open('POST', 'https://api.imgur.com/3/image');
-          xhr.setRequestHeader('Authorization', 'Client-ID ##clientid##');
-          const data = new FormData();
-          data.append('image', file);
-          xhr.send(data);
-          xhr.addEventListener('load', () => {
-            const response = JSON.parse(xhr.responseText);
-            console.log(response)
-            resolve(response);
-          });
-          xhr.addEventListener('error', () => {
-            const error = JSON.parse(xhr.responseText);
-            console.log(error)
-            reject(error);
-          });
-        }
-      );
-    }
     
     const texttheme = createTheme({
       typography: {
         allVariants: {
-          fontFamily: 'Basic',
+          fontFamily: 'Noto Sans KR',
           textTransform: 'none',
         },
       },});
@@ -100,12 +82,21 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
         <div className="editor" style={{maxHeight: "570px" , width:'100%' }}>
         <ThemeProvider theme={texttheme}>
         <Typography sx={{fontSize: 20}}>
-          <Editor  
+          <Editor         
             spellCheck
             editorState={editorState}
             onEditorStateChange={onEditorStateChange}
-            toolbar={toolbar}
-            editorStyle={{height: "500px" }}             
+            wrapperClassName="wrapper-class"
+            editorClassName="editor-class"
+            toolbarClassName="toolbar-class"
+            toolbar={{
+            inline: { inDropdown: true },
+            list: { inDropdown: true },
+            textAlign: { inDropdown: true },
+            link: { inDropdown: true },
+            history: { inDropdown: true },
+            image: { inDropdown: true },
+  }}          
           />
           </Typography>
           </ThemeProvider>

@@ -26,13 +26,14 @@ export default function UpdateForm() {
   // This handles the case where post is null.
 
   const defaultSet = {
-    title: (post? post.title : "title"),
-    text: (post? post.text : "write text here"),
-    category: (post? post.category : "expat"),
+    title: (post? post.title : ""),
+    text: (post? post.text : ""),
+    category: (post? post.category : ""),
+    timestamp: (post? post.timestamp: "")
   };
 
   const onSubmit = async (data: any) => {
-    var datestr = (new Date()).toUTCString();
+    var datestr = (new Date(defaultSet.timestamp)).toUTCString();
     const formData = new FormData();
     formData.append("id", id)
     formData.append("title", data.title);
@@ -51,9 +52,9 @@ export default function UpdateForm() {
       })
       .then((response) => {
         console.log(response);
-        window.location.href = 'http://localhost:7231/' 
-        // redirects to the homepage. Does work with http, but NOT with https (why?) 
-        // `http://localhost:7231//posts/${post.id}` does not work
+        window.location.href = `http://localhost:7231/posts/${post.id}` 
+        // works with http, but NOT with https?
+        
         
       })
       .catch((error) => {
@@ -67,7 +68,6 @@ export default function UpdateForm() {
         }
       });
   };
-
 
     return (
       <>           
@@ -88,7 +88,8 @@ export default function UpdateForm() {
   <Box>
   <Controller     
           render={({ field }) => (
-            <TextEditor onChange={field.onChange} value={field.value} />
+            <TextEditor onChange={field.onChange} value={field.value} 
+            />
           )}
           control={control}
           defaultValue={defaultSet.text}

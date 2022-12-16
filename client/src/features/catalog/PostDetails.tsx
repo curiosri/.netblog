@@ -23,7 +23,7 @@ export default function PostDetails() {
 
     if (loading) return <h3></h3>
 
-    if (!post) return <h3> This post doesn't exist </h3>
+    if (!post) return <h3></h3>
 
     // delete the individual post
     function handleDeletePost(id: string) {
@@ -39,7 +39,7 @@ export default function PostDetails() {
     const titletheme = createTheme({
         typography: {
           allVariants: {
-            fontFamily: 'Russo One',
+            fontFamily: 'Poppins',
             textTransform: 'none',
             fontSize: 25,
             fontWeight: 'bold'
@@ -52,7 +52,7 @@ export default function PostDetails() {
     const texttheme = createTheme({
         typography: {
           allVariants: {
-            fontFamily: 'Basic',
+            fontFamily: 'Noto Sans KR',
             textTransform: 'none',
             fontSize: 19
           },
@@ -97,10 +97,9 @@ export default function PostDetails() {
                 </Grid>
                 <Grid item xs={15}>
                 
-                <Button size="large"  sx={{left: "0%"}}>
-                <Link to={`/posts/${post.id}/update` } style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                <Button size="large"  sx={{left: "0%"}} href={`/posts/${post.id}/update` }>
                     EDIT
-                </Link></Button>
+                </Button>
                 
                 <Button size="large"  sx={{left: "0%"}} 
                 onClick={() => handleDeletePost(id)} >

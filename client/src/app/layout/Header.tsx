@@ -32,7 +32,7 @@ import './styles.css'
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
-      width: 'auto',
+      width: '180px',
     },
   }));
 
@@ -45,7 +45,7 @@ import './styles.css'
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('sm')]: {
-        width: '12ch',
+        width: '150px',
       },
     },
   }));  
@@ -69,11 +69,12 @@ import './styles.css'
   
   
   const Links = [
-    {title: 'KOREA NEWS', path:'/news'},
-    {title: 'KOREAN LEARNERS', path:'/korean'},
+    {title: 'NEWS', path:'/news'},
+    {title: 'LEARN KOREAN', path:'/korean'},
     {title: 'STUDY ABROAD', path:'/abroad'},
     {title: 'EXPAT LIFE', path:'/expat'},
     {title: 'SHOP', path:'/shop'},
+    {title: 'MEETUP', path:'/meetup'},
 
   ]
 
