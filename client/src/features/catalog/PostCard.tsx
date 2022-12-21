@@ -2,6 +2,8 @@ import { ThemeProvider, Card, CardContent, createTheme, Typography } from "@mui/
 import { Link } from "react-router-dom";
 import { Post } from "../../app/models/post";
 import React from 'react';
+import DOMPurify from 'dompurify';
+
 
 interface Props {
     post: Post;
@@ -46,7 +48,7 @@ export default function PostCard({post}: Props) {
         <ThemeProvider theme={texttheme}> 
         <Typography variant="h5" color="text.secondary">
         <div style={{ whiteSpace: 'pre-wrap' }}>
-          {d.innerText}{/* get the text body of the post */}
+          {DOMPurify.sanitize(d.innerText)}{/* get the text body of the post */}
           </div>
         </Typography></ThemeProvider>
       </CardContent>

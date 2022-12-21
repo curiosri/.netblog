@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider, Typography } from "@mui/material";
-import { ContentBlock, ContentState, convertFromHTML, convertToRaw, EditorState} from "draft-js";
+import { EditorBlock, ContentState, convertFromHTML, convertToRaw, EditorState} from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import React, { useEffect, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
@@ -34,20 +34,27 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
     };
   
     const toolbar = {
-      options: ["inline", "blockType", "list", "image"],
+      options: ["inline", "blockType", "list", "image", "embedded"],
       inline: {
         inDropdown: false,
         options: ['bold', 'underline', 'italic']
       },
       
       blockType: {
-        inDropdown: false,
-        options: ["H1", "H2", "H3", "H5", "Normal", "Code"]
+        inDropdown: true,
+        options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
+        className: undefined,
+        component: undefined,
+        dropdownClassName: undefined,
       },
 
       list: {
         inDropdown: false,
-        options: ["unordered", "ordered"]
+        className: undefined,
+        component: undefined,
+        dropdownClassName: undefined,
+        options: ['unordered', 'ordered'],
+        
       },
       image: {
         className: undefined,
@@ -56,7 +63,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
         urlEnabled: true,
         uploadEnabled: true,
         alignmentEnabled: true,
-        uploadCallback: undefined,
+        uploadCallback: uploadImageCallBack,
         previewImage: false,
         inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
         alt: { present: false, mandatory: false },
@@ -65,7 +72,40 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
           width: 'auto',
         },
       },
-    };    
+      embedded: {
+        className: undefined,
+        component: undefined,
+        popupClassName: undefined,
+        embedCallback: undefined,
+        defaultSize: {
+          height: 'auto',
+          width: 'auto',
+        },
+      },
+    };
+    
+    function uploadImageCallBack(file: any) {
+      return new Promise(
+        (resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://api.imgur.com/3/image');
+          xhr.setRequestHeader('Authorization', 'Client-ID ##clientid##');
+          const data = new FormData();
+          data.append('image', file);
+          xhr.send(data);
+          xhr.addEventListener('load', () => {
+            const response = JSON.parse(xhr.responseText);
+            console.log(response)
+            resolve(response);
+          });
+          xhr.addEventListener('error', () => {
+            const error = JSON.parse(xhr.responseText);
+            console.log(error)
+            reject(error);
+          });
+        }
+      );
+    }
     
     
     const texttheme = createTheme({
@@ -89,14 +129,8 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
             wrapperClassName="wrapper-class"
             editorClassName="editor-class"
             toolbarClassName="toolbar-class"
-            toolbar={{
-            inline: { inDropdown: true },
-            list: { inDropdown: true },
-            textAlign: { inDropdown: true },
-            link: { inDropdown: true },
-            history: { inDropdown: true },
-            image: { inDropdown: true },
-  }}          
+            toolbar={toolbar}
+            editorStyle={{height: "500px" }}   
           />
           </Typography>
           </ThemeProvider>

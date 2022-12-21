@@ -5,25 +5,25 @@ import { Link, useParams } from "react-router-dom";
 import { Post } from "../../app/models/post";
 import ReactHtmlParser from 'react-html-parser';
 import agent from "../../app/api/agent";
+import DOMPurify from 'dompurify';
 
 
 export default function PostDetails() {
     const {id} = useParams<{id: string}>();
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(false);
-    const [target, setTarget] = useState(0);
 
     // get the individual post content
     useEffect(() => {
         agent.Catalog.details(parseInt(id))
         .then(response => setPost(response))
-        .catch(error =>console.log(error))
+        .catch(error => console.log(error)) // error.reponse gives the full axios error details
         .finally(() => setLoading(false));
     }, [id])
 
-    if (loading) return <h3></h3>
+    if (loading) return <h2> Loading </h2>
 
-    if (!post) return <h3></h3>
+    if (!post) return <h2> Post Not Found </h2>
 
     // delete the individual post
     function handleDeletePost(id: string) {
@@ -71,8 +71,8 @@ export default function PostDetails() {
                 <Grid item xs={15}>
                     <TableContainer>
                     <div className="table" style={{width:'100%' }}>
-                        <Table>
-                            <TableBody>
+                        <Table sx={{width: '100%'}} >
+                            <TableBody sx={{width: '100%'}}>
                                 <TableRow>
                                 <ThemeProvider theme={titletheme}>
                                     <TableCell><Typography>{post.title}
@@ -85,7 +85,7 @@ export default function PostDetails() {
                                     <React.Fragment> 
                                                         
                                     <div style={{ whiteSpace: 'pre-wrap' }} >
-                                        {ReactHtmlParser(post.text)} 
+                                        {ReactHtmlParser(DOMPurify.sanitize(post.text))} 
                                     </div>
                                     </React.Fragment>
                                     </Typography></TableCell>

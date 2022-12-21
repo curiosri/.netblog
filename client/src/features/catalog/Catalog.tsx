@@ -18,12 +18,8 @@ export default function Catalog() {
     return (
         
         <>
-        
-          
-      
       <PostList posts={posts} />
-      
-      
+
         </>
             
             

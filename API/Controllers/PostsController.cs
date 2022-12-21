@@ -32,7 +32,9 @@ namespace API.Controllers
         [HttpGet("{id}", Name = "GetPost")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
-            return await _context.Posts.FindAsync(id);
+            var post = await _context.Posts.FindAsync(id);
+            if ( post  == null ) return NotFound(); // catches the cases when the post is null
+            return post;
         }
 
         [HttpGet("filters")]
