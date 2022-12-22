@@ -9,6 +9,8 @@ import PostDetails from "../../features/catalog/PostDetails";
 import { Post } from "../models/post";
 import Header from "./Header";
 import DsaPage from "../../features/catalog/DsaPage";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -17,7 +19,7 @@ function App() {
   
   return (
     <>
-    
+      <ToastContainer position='bottom-right'/>
       <Header />
       <Box sx={{
           p: 2,
