@@ -4,7 +4,10 @@ import './app/layout/styles.css';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { render } from "react-dom";    
+import { render } from "react-dom";
+//import { createBrowserHistory } from "history"  
+
+//const history = createBrowserHistory();
 
 render(
   <BrowserRouter>

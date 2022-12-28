@@ -11,6 +11,7 @@ import Header from "./Header";
 import DsaPage from "../../features/catalog/DsaPage";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ServerError from "../errors/ServerError";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route exact path='/posts/:id' component={PostDetails}/> {/* link to individual posts */}
         <Route path='/writepost' component={PostForm}/> 
         <Route path='/news' component={DsaPage}/>
+
         <Route exact path='/posts/:id/update' component={UpdateForm}/> 
       </Container>
       </CssBaseline>

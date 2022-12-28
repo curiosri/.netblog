@@ -23,7 +23,7 @@ export default function PostDetails() {
 
     if (loading) return <h2> Loading </h2>
 
-    if (!post) return <h2> Post Not Found </h2>
+    if (!post) return <h2></h2>
 
     // delete the individual post
     function handleDeletePost(id: string) {

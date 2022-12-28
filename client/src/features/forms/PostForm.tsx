@@ -11,7 +11,9 @@ export default function PostForm() {
   const { register, handleSubmit, control } = useForm();
 
   const onSubmit = async (data: any) => {
-    var datestr = (new Date()).toUTCString();
+    
+    const options : Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    var datestr = (new Date()).toLocaleTimeString('en-KR', options);
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("text", data.text);
