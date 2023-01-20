@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,18 +23,22 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Post>>> GetPosts()
+        public async Task<ActionResult<List<Post>>> GetPosts(string? orderBy)
         {
-            var items = await _context.Posts.OrderByDescending(x => x.Id).ToListAsync();
+            var query = _context.Posts
+                .Sort(orderBy)
+                .AsQueryable();
+
+
+            var items = await query.ToListAsync();
             return items;
-            //return await _context.Posts.ToListAsync();
-            
+
         }
         [HttpGet("{id}", Name = "GetPost")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
             var post = await _context.Posts.FindAsync(id);
-            if ( post  == null ) return NotFound(); // catches the cases when the post is null
+            if (post == null) return NotFound(); // catches the cases when the post is null
             return post;
         }
 
@@ -81,7 +86,7 @@ namespace API.Controllers
             return BadRequest();
         }
 
-        
+
 
 
 

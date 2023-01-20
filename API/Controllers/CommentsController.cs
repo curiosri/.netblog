@@ -1,5 +1,7 @@
 ﻿using API.Data;
+using API.DTOs;
 using API.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +12,12 @@ namespace API.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly BlogContext _context;
+        private readonly IMapper _mapper;
 
-        public CommentsController(BlogContext context)
+        public CommentsController(BlogContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,11 +26,7 @@ namespace API.Controllers
             return await _context.Comments.ToListAsync();
 
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetComment(int id)
-        {
-            return await _context.Comments.FindAsync(id);
-        }
+
 
     }
 }

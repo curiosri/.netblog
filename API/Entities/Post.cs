@@ -9,6 +9,7 @@ namespace API.Entities
         public string Category { get; set; }    
         public DateTime Timestamp { get; set; }
         public int AuthorId { get; set; }
+        public int Upvotes { get; set; }
         public string Text { get; set; }
     }
 }
