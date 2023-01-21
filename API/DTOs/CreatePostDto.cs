@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs
 {
@@ -12,8 +11,12 @@ namespace API.DTOs
         [Required]
         public int AuthorId { get; set; }
         [Required]
-        public string Text { get; set; }
-        [Required]
         public string Category { get; set; }
+        [Required]
+        public string Text { get; set; }
+
+        [Required]
+        public string Tags { get; set; }
+
     }
 }
