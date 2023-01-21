@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs
 {
     public class CreatePostDto
-    {   [Required]
+    {
+        [Required]
         public string Title { get; set; }
         [Required]
         public DateTime Timestamp { get; set; }

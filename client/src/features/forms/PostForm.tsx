@@ -20,6 +20,11 @@ export default function PostForm() {
     formData.append("category", data.category);
     formData.append("timestamp", datestr);
     formData.append("authorId", "1");
+    formData.append("tags", "admission");
+    formData.append("hits", "0");
+    formData.append("upvotes", "0");
+    formData.append("reports", "0");
+
     const response = await axios("https://localhost:7230/api/posts", {
       method: "POST",
       data: formData,
@@ -97,3 +102,6 @@ export default function PostForm() {
     </>
     )
   }
+
+    
+

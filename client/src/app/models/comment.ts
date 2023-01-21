@@ -4,6 +4,8 @@ export interface Comment {
     authorId: number;
     text: string;
     timestamp: Date;
-    
+    upvotes: number;
+    reports: number;
+
 
 }
