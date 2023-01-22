@@ -17,6 +17,21 @@ namespace API.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
 
+            modelBuilder.Entity("API.Entities.Bookmark", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bookmarks");
+                });
+
             modelBuilder.Entity("API.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -123,6 +138,27 @@ namespace API.Data.Migrations
                     b.ToTable("Replies");
                 });
 
+            modelBuilder.Entity("API.Entities.SavedItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BookmarkId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookmarkId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("SavedItems");
+                });
+
             modelBuilder.Entity("API.Entities.Comment", b =>
                 {
                     b.HasOne("API.Entities.Post", "Post")
@@ -143,6 +179,30 @@ namespace API.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Comment");
+                });
+
+            modelBuilder.Entity("API.Entities.SavedItem", b =>
+                {
+                    b.HasOne("API.Entities.Bookmark", "Bookmark")
+                        .WithMany("Items")
+                        .HasForeignKey("BookmarkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bookmark");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("API.Entities.Bookmark", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("API.Entities.Comment", b =>

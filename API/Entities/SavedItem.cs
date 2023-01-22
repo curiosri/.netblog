@@ -6,7 +6,6 @@ namespace API.Entities
     public class SavedItem
     {
         public int Id { get; set; }
-        public string Name { get; set; }
 
 
         //navigation properties

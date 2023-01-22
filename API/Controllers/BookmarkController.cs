@@ -32,8 +32,12 @@ namespace API.Controllers
                     Title = item.Post.Title,
                     Category = item.Post.Category,
                     Timestamp = item.Post.Timestamp,
+                    AuthorId = item.Post.AuthorId,
+                    Text = item.Post.Text,
+                    Tags = item.Post.Tags,
                     Hits = item.Post.Hits,
-                    Upvotes = item.Post.Upvotes
+                    Upvotes = item.Post.Upvotes,
+                    Reports = item.Post.Reports,
                 }).ToList()
             };
         }
