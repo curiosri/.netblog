@@ -12,15 +12,18 @@ export default function CommentForm() {
     
   });
 
+
   const onSubmit = async (data: any) => {
     var datestr = (new Date()).toUTCString();
     const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("text", data.text);
-    formData.append("category", data.category);
-    formData.append("timestamp", datestr);
+    formData.append("postId", data.postId);
     formData.append("authorId", "1");
-    const response = await axios("https://localhost:7230/api/posts", {
+    formData.append("text", data.text);
+    formData.append("timestamp", datestr);
+    formData.append("upvotes", data.upvotes);
+    formData.append("reports", data.reports);
+
+    const response = await axios("https://localhost:7230/api/comments", {
       method: "POST",
       data: formData,
       headers: { "Content-Type": "multipart/form-data", "Accept": "multipart/form-data" },
@@ -50,18 +53,6 @@ export default function CommentForm() {
       <>           
 <form onSubmit={handleSubmit(onSubmit)}>
   <Box>
- 
-  <TextField
-      id="outlined-uncontrolled"
-      label="Post Title"
-      sx = {{width: '100%'}}
-      type="text"
-      {...register("title")}
-    />
-
-  </Box>
-  <p/><p/>
-  <Box>
   <Controller     
           render={({ field }) => (
             <TextEditor onChange={field.onChange} value={field.value} />
@@ -70,17 +61,6 @@ export default function CommentForm() {
           defaultValue=""
           {...register("text")}
         />
-  </Box>
-  <p/>
-  <Box sx = {{width: '90%'}}>
-    <TextField
-      id="outlined-uncontrolled"
-      label="Category"
-      sx = {{width: '20%'}}
-      type="text"
-      {...register("category")}
-    />
-    <Button type="submit" variant="contained" size="large"  sx={{left: "80%"}}>Submit</Button>
   </Box>
 </form>          
     </>
