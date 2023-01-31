@@ -3,6 +3,7 @@ using API.DTOs;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace API.Controllers
 {
@@ -15,37 +16,18 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetBookmark")] // route name required
         public async Task<ActionResult<BookmarkDto>> GetBookmark()
         {
             var bookmark = await RetrieveBookmark();
 
             if (bookmark == null) return NotFound();
-
-            return new BookmarkDto
-            {
-                Id = bookmark.Id,
-                UserId = bookmark.UserId,
-                Items = bookmark.Items.Select(item => new SavedItemDto
-                {
-                    PostId = item.PostId,
-                    Title = item.Post.Title,
-                    Category = item.Post.Category,
-                    Timestamp = item.Post.Timestamp,
-                    AuthorId = item.Post.AuthorId,
-                    Text = item.Post.Text,
-                    Tags = item.Post.Tags,
-                    Hits = item.Post.Hits,
-                    Upvotes = item.Post.Upvotes,
-                    Reports = item.Post.Reports,
-                }).ToList()
-            };
+            return MapBookmarkToDto(bookmark);
         }
 
-
-
+        
         [HttpPost]
-        public async Task<ActionResult> AddItemToBookmark(int postId)
+        public async Task<ActionResult<BookmarkDto>> AddItemToBookmark(int postId)
         {
             // get the basket 
             var bookmark = await RetrieveBookmark();
@@ -60,7 +42,7 @@ namespace API.Controllers
             // add item
             bookmark.AddItem(post);
             var result = await _context.SaveChangesAsync() > 0;
-            if (result) return StatusCode(201);
+            if (result) return CreatedAtRoute("GetBookmark", MapBookmarkToDto(bookmark) );
             return BadRequest(new ProblemDetails { Title = "Problem saving item to bookmark" });
 
             // save changes
@@ -73,9 +55,16 @@ namespace API.Controllers
         public async Task<ActionResult> RemoveItem(int postId)
         {
             // get basket
+            var bookmark = await RetrieveBookmark();
+            if (bookmark == null) return NotFound();
             // remove item
+            bookmark.RemoveItem(postId);
             // save changes
-            return Ok();
+            var result = await _context.SaveChangesAsync() > 0;
+            
+            if (result) return Ok();
+
+            return BadRequest(new ProblemDetails { Title = "Could not remove the bookmark"});
         }
 
 
@@ -97,8 +86,31 @@ namespace API.Controllers
             var bookmark = new Bookmark { UserId = userId };
             _context.Bookmarks.Add(bookmark);
             return bookmark;
-
         }
+
+
+        private BookmarkDto MapBookmarkToDto(Bookmark bookmark)
+        {
+            return new BookmarkDto
+            {
+                Id = bookmark.Id,
+                UserId = bookmark.UserId,
+                Items = bookmark.Items.Select(item => new SavedItemDto
+                {
+                    PostId = item.PostId,
+                    Title = item.Post.Title,
+                    Category = item.Post.Category,
+                    Timestamp = item.Post.Timestamp,
+                    AuthorId = item.Post.AuthorId,
+                    Text = item.Post.Text,
+                    Tags = item.Post.Tags,
+                    Hits = item.Post.Hits,
+                    Upvotes = item.Post.Upvotes,
+                    Reports = item.Post.Reports,
+                }).ToList()
+            };
+        }
+
     }
 
 
